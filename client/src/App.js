@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import fire from './fire';
 import Login from './components/login';
-import Home from './components/home';
+import AdminHome from './components/adminHome';
+import StudentHome from './components/studentHome';
 import './App.css';
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
   const[emailError, setEmailError] = useState('');
   const[passwordError, setPasswordError] = useState('');
   const[hasAccount, setHasAccount] = useState(false);
+  const[userRole, setUserRole] = useState('student');
 
   const handleLogin = () => {
     clearErrors();
@@ -37,6 +39,11 @@ function App() {
     fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
+      .then((authUser) => {
+        return fire.firestore().collection('users').doc(authUser.user.uid).set({
+          role: userRole,
+        });
+      })
       .catch((err) => {
         switch (err.code) {
           case "auth/email-already-in-use":
@@ -59,6 +66,12 @@ function App() {
       if(user) {
         clearInputs();
         setUser(user);
+        fire.firestore().collection('users').doc(user.uid).get()
+        .then((doc) => {
+          if (doc.exists) {
+            setUserRole(doc.data().role);
+          }
+        })
       } else {
         setUser("");
       }
@@ -82,7 +95,11 @@ function App() {
   return (
     <div className="App">
       {user ? (
-        <Home handleLogout = {handleLogout} />
+        userRole === 'admin' ? (
+          <AdminHome handleLogout = {handleLogout} />
+        ) : (
+          <StudentHome handleLogout = {handleLogout} />
+        )
       ): (
         <Login 
           email = {email}
@@ -94,7 +111,9 @@ function App() {
           handleLogin = {handleLogin}
           handleSignUp = {handleSignUp}
           emailError = {emailError}
-          passwordError = {passwordError}  
+          passwordError = {passwordError}
+          userRole = {userRole}
+          setUserRole = {setUserRole}  
         />
       )}
       

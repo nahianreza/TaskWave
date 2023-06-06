@@ -116,3 +116,11 @@ button {
   padding: 8px 0;
   background: #1c4bcc;
 }
+.role-options {
+  text-align: center;
+}
+
+.role-option {
+  display: inline-block;
+  margin-right: 20px;
+}

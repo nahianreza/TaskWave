@@ -1,14 +1,14 @@
 import React from "react";
 
-const Home = (props) => {
+const AdminHome = (props) => {
     return(
         <section className="home">
             <nav>
-                <h2>Tech Incubator</h2>
+                <h2>Tech Incubator for companies</h2>
                 <button onClick={props.handleLogout}>Logout</button>
             </nav>
         </section>
     )
 }
 
-export default Home;
+export default AdminHome;

@@ -2,7 +2,9 @@ import React from "react";
 
 const Login = (props) => {
 
-    const {email, setEmail, password, setPassword, hasAccount, setHasAccount, handleLogin, handleSignUp, emailError, passwordError} = props;
+    const {email, setEmail, password, setPassword, hasAccount, setHasAccount, handleLogin, handleSignUp, emailError, passwordError, userRole, setUserRole} = props;
+
+
     return(
         <section className="login">
             <div className="loginContainer">
@@ -14,6 +16,22 @@ const Login = (props) => {
                 <label>Password</label>
                 <input type = "text" required value = {password} onChange ={(e) => setPassword(e.target.value)}/>
                 <p className="errorMsg">{passwordError}</p>
+                {!hasAccount && (
+                    <div className="role-options">
+                        <label className="role-option">
+                            <input type="radio" value="student"
+                                    checked = {userRole === 'student'}
+                                    onChange={(e) => setUserRole(e.target.value)}/>
+                            Student
+                        </label>
+                        <label className="role-option">
+                            <input type="radio" value="admin"
+                                    checked = {userRole === 'admin'}
+                                    onChange={(e) => setUserRole(e.target.value)}/>
+                            Admin
+                        </label>
+                    </div>
+                )}
                 <div className="btnContainer">
                     {hasAccount ? (
                         <>
