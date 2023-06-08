@@ -2,6 +2,7 @@ import React from "react";
 import firebase from "../fire";
 import { useState, useEffect } from "react";
 import { QuerySnapshot } from "firebase/firestore";
+import Post from "./Post";
 
 const List = () => {
 	const [tasks, setTasks] = useState([]);
@@ -24,9 +25,9 @@ const List = () => {
 		});
 	};
 
-	if (loading) {
-		return <p>Error in getting database</p>;
-	}
+	// if (loading) {
+	// 	return <p>Error in getting database</p>;
+	// }
 
 	// Use effect prevents thing from being called too much
 	useEffect(() => {
@@ -37,14 +38,16 @@ const List = () => {
 
 	return (
 		<>
-			{tasks.map((task, index) => (
+			{/* {tasks.map((task, index) => (
 				<div key={task.id}>
 					<h1>{task.Description}</h1>
 					<p>Creator: {task.Creator}</p>
 					<p>Assignee: {task.Assignee}</p>
 					<p>Completed: {task.Completed ? "Yes" : "No"}</p>
 				</div>
-			))}
+			))} */}
+			<Post task={tasks[0]}></Post>
+			<Post task={tasks[1]}></Post>
 		</>
 	);
 };
