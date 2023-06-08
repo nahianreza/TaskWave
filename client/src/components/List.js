@@ -24,14 +24,16 @@ const List = () => {
 		});
 	};
 
+	if (loading) {
+		return <p>Error in getting database</p>;
+	}
+
 	// Use effect prevents thing from being called too much
 	useEffect(() => {
 		getTasks();
 	}, []);
 
 	console.log(tasks);
-
-	console.log();
 
 	return (
 		<>
