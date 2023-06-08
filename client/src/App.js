@@ -13,7 +13,11 @@ function App() {
   const[emailError, setEmailError] = useState('');
   const[passwordError, setPasswordError] = useState('');
   const[hasAccount, setHasAccount] = useState(false);
-  const[userRole, setUserRole] = useState('student');
+  const[userRole, setUserRole] = useState('');
+  const [companyName, setCompanyName] = useState("");
+  const [companyLogo, setCompanyLogo] = useState(null);
+  const [studentName, setStudentName] = useState("");
+  const [studentLogo, setStudentLogo] = useState(null);
 
   const handleLogin = () => {
     clearErrors();
@@ -113,7 +117,13 @@ function App() {
           emailError = {emailError}
           passwordError = {passwordError}
           userRole = {userRole}
-          setUserRole = {setUserRole}  
+          setUserRole = {setUserRole}
+          companyName = {companyName}
+          setCompanyName = {setCompanyName}
+          setCompanyLogo = {setCompanyLogo}
+          studentName = {studentName}
+          setStudentName = {setStudentName}
+          setStudentLogo = {setStudentLogo}  
         />
       )}
       
