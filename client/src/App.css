@@ -124,3 +124,40 @@ button {
   display: inline-block;
   margin-right: 20px;
 }
+
+.modal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background: #f2f2f2;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.modal label {
+  display: block;
+  margin-top: 20px;
+}
+
+.modal input,
+.modal textarea {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.modal textarea { 
+  height: 100px;
+}
+
+.modal button {
+  margin-top: 20px;
+  padding: 10px;
+}
+
+button.create-assignment-button {
+  width: 500px; 
+  margin-right: 20px;
+}
+
+

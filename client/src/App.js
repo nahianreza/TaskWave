@@ -18,6 +18,7 @@ function App() {
   const [companyLogo, setCompanyLogo] = useState(null);
   const [studentName, setStudentName] = useState("");
   const [studentLogo, setStudentLogo] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const handleLogin = () => {
     clearErrors();
@@ -34,6 +35,9 @@ function App() {
           case "auth/wrong-password":
             setPasswordError(err.message);
             break;
+          default:
+            console.error(err.message); 
+            break;
         }
       });
   };
@@ -43,10 +47,41 @@ function App() {
     fire
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((authUser) => {
-        return fire.firestore().collection('users').doc(authUser.user.uid).set({
-          role: userRole,
-        });
+      .then(async (authUser) => {
+        setUserRole(userRole); 
+        const storageRef = fire.storage().ref();
+
+        if(userRole === 'admin' && companyLogo){
+          const logoRef = storageRef.child(`logos/${companyLogo.name}`);
+          return logoRef.put(companyLogo)
+            .then(snapshot => {
+              return snapshot.ref.getDownloadURL();
+            })
+            .then(downloadURL => {
+              return fire.firestore().collection('users').doc(authUser.user.uid).set({
+                role: userRole,
+                companyName,
+                companyLogo: downloadURL
+              });
+            });
+        } else if (userRole === 'student' && studentLogo) {
+          const logoRef = storageRef.child(`logos/${studentLogo.name}`);
+          return logoRef.put(studentLogo)
+            .then(snapshot => {
+              return snapshot.ref.getDownloadURL();
+            })
+            .then(downloadURL => {
+              return fire.firestore().collection('users').doc(authUser.user.uid).set({
+                role: userRole,
+                studentName,
+                studentLogo: downloadURL
+              });
+            });
+        } else {
+          return fire.firestore().collection('users').doc(authUser.user.uid).set({
+            role: userRole,
+          });
+        }
       })
       .catch((err) => {
         switch (err.code) {
@@ -66,19 +101,28 @@ function App() {
   };
 
   const authListener = () => {
-    fire.auth().onAuthStateChanged((user) => {
+    fire.auth().onAuthStateChanged(async (user) => {
       if(user) {
         clearInputs();
         setUser(user);
-        fire.firestore().collection('users').doc(user.uid).get()
-        .then((doc) => {
-          if (doc.exists) {
-            setUserRole(doc.data().role);
+
+        const doc = await fire.firestore().collection('users').doc(user.uid).get();
+        if (doc.exists) {
+          const data = doc.data();
+          setUserRole(data.role);
+          if(data.role === 'admin'){
+            setCompanyName(doc.data().companyName);
+            setCompanyLogo(doc.data().companyLogo);
+          } else if (doc.data().role === 'student'){
+            setStudentName(doc.data().studentName);
+            setStudentLogo(doc.data().studentLogo);
           }
-        })
+        }
       } else {
         setUser("");
+        setUserRole("");
       }
+      setLoading(false);
     });
   };
 
@@ -98,7 +142,9 @@ function App() {
 
   return (
     <div className="App">
-      {user ? (
+      {loading ? (
+        <div>Loading...</div>
+      ) : user ? (
         userRole === 'admin' ? (
           <AdminHome handleLogout = {handleLogout} />
         ) : (
