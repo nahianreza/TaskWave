@@ -37,7 +37,7 @@ const List = () => {
 
 	// tasks = getTasks();
 
-	console.log(tasks);
+	// console.log(tasks);
 
 	return (
 		<div className="list-div">

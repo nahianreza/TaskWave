@@ -3,7 +3,11 @@ import "./Post.css";
 import React from "react";
 
 const Post = ({ task }) => {
-	console.log(task);
+	// console.log(task);
+
+	if (!task.hasOwnProperty("Creator")) {
+		return;
+	}
 
 	return (
 		<>
