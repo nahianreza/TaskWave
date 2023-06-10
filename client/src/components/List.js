@@ -3,6 +3,7 @@ import firebase from "../fire";
 import { useState, useEffect } from "react";
 import { QuerySnapshot } from "firebase/firestore";
 import Post from "./Post";
+import "./List.css";
 
 const List = () => {
 	const [tasks, setTasks] = useState([]);
@@ -34,21 +35,18 @@ const List = () => {
 		getTasks();
 	}, []);
 
+	// tasks = getTasks();
+
 	console.log(tasks);
 
 	return (
-		<>
-			{/* {tasks.map((task, index) => (
+		<div className="list-div">
+			{tasks.map((task, index) => (
 				<div key={task.id}>
-					<h1>{task.Description}</h1>
-					<p>Creator: {task.Creator}</p>
-					<p>Assignee: {task.Assignee}</p>
-					<p>Completed: {task.Completed ? "Yes" : "No"}</p>
+					<Post task={task}></Post>
 				</div>
-			))} */}
-			<Post task={tasks[0]}></Post>
-			<Post task={tasks[1]}></Post>
-		</>
+			))}
+		</div>
 	);
 };
 

@@ -1,0 +1,6 @@
+.list-div{
+    border: solid black 5px;
+    display: block;
+    width: 1000px;
+    margin: 25px auto;
+}
