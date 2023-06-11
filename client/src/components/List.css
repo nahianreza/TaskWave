@@ -1,6 +1,17 @@
-.list-div{
-    border: solid black 5px;
-    display: block;
-    width: 1000px;
-    margin: 25px auto;
+.list-div {
+	border: solid black 5px;
+	display: block;
+	width: 700px;
+	margin: 25px auto;
+	background: linear-gradient(to bottom right, #636667, #3d4243, #000000);
+	/* background-color: rgb(84, 83, 83); */
+	padding: 50px 0px;
+	border-radius: 100px;
+}
+
+#tasks-button {
+	width: 100px;
+	border-radius: 20px;
+	display: block;
+	margin: 0px 50px 0px auto;
 }

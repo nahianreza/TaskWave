@@ -1,57 +1,49 @@
-h1{
-    display: inline;
-}
-.post-div{
-    display: flex;
-    margin: auto auto;
-    width: 500px;
-    background-color: cyan; 
-    padding: 30px 0px 30px 0px;
-    justify-content: center;
-    margin-bottom: 30px;
-    margin-top: 30px;
-}
-
 /* CSS for post square */
 .square {
-  display: block;
-  background: linear-gradient(to bottom right, #4e9cff, #ffffff);
-  width: 300px;
-  height: 300px;
-  border-radius: 20px;
-  padding: 20px;
-  margin: 20px auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	display: block;
+	/* background: linear-gradient(to bottom right, #0ac2f5, #000000); */
+	background: linear-gradient(to bottom right, #0ac2f5, #082c3f, #000000);
+	width: 300px;
+	height: 300px;
+	border-radius: 20px;
+	padding: 20px;
+	margin: 20px auto;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	color: white;
+	border: solid 1px white;
+}
+
+.square:hover {
+	opacity: 0.7;
 }
 
 .square button {
-  border-radius: 50px;
-  color: white;
-  font-size: 15px;
-  width: 75px;
-  margin-top: 150px;
-  float: right;
- box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+	border-radius: 50px;
+	color: white;
+	font-size: 15px;
+	width: 75px;
+	margin-top: 150px;
+	float: right;
+	box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.square button:hover {
+	border: solid 1px white;
+	opacity: 0.6;
+}
+
+/* .square button:active {
+	opacity: 0;
+} */
+
 .accept {
-  background-color: rgb(42, 207, 236);
+	background-color: rgb(42, 207, 236);
 }
 
 .upload {
-  background-color: rgb(231, 160, 5);
+	background-color: rgb(231, 160, 5);
 }
 
 .submit {
-  background-color: rgb(20, 223, 108);
+	background-color: rgb(20, 223, 108);
 }
-
-
-
-
-
-
-
-
-
-

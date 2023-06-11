@@ -7,9 +7,10 @@ import "./List.css";
 
 const List = () => {
 	const [tasks, setTasks] = useState([]);
-	const [loading, setLoading] = useState(false);
+	const [needGetTasks, setNeedGetTasks] = useState(true);
+	const [loaded, setLoading] = useState(false);
 
-	const ref = firebase.firestore().collection("tasks");
+	const ref = firebase.firestore().collection("allTasks");
 
 	const getTasks = () => {
 		setLoading(true);
@@ -26,27 +27,46 @@ const List = () => {
 		});
 	};
 
-	// if (loading) {
-	// 	return <p>Error in getting database</p>;
-	// }
+	// const getTasks = () => {
+	// 	let items = [
+	// 		{ Creator: "Ihsaan", Description: "Implement stack" },
+	// 		{ Creator: "Armaan", Description: "Implement backend" },
+	// 		{ Creator: "Abhi", Description: "Shut up" },
+	// 	];
+	// 	setTasks(items);
+	// };
 
 	// Use effect prevents thing from being called too much
-	useEffect(() => {
-		getTasks();
-	}, []);
 
-	// tasks = getTasks();
+	// useEffect(() => {
+	// 	getTasks();
+	// 	console.log(tasks);
+	// }, []);
 
-	// console.log(tasks);
+	if (loaded) {
+		return (
+			<div>
+				<h1>Tasks loading!</h1>
+			</div>
+		);
+	}
 
 	return (
-		<div className="list-div">
-			{tasks.map((task, index) => (
-				<div key={task.id}>
-					<Post task={task}></Post>
+		<>
+			<div className="list-div">
+				<div>
+					<button id="tasks-button" onClick={getTasks}>
+						Lol
+					</button>
 				</div>
-			))}
-		</div>
+
+				{tasks.map((task, index) => (
+					<div key={task.id}>
+						<Post task={task}></Post>
+					</div>
+				))}
+			</div>
+		</>
 	);
 };
 

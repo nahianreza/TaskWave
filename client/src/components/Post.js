@@ -7,14 +7,10 @@ const Post = ({ task }) => {
 	// console.log(task);
 	const [state, setState] = useState(1);
 
-	if (!task.hasOwnProperty("Creator")) {
-		return;
-	}
-
 	return (
 		<>
 			<div className="square">
-				<h1>{task.Creator}</h1>
+				<h1>{task.Company}</h1>
 				<p>{task.Description}</p>
 				{state === 1 && (
 					<button className="accept" onClick={() => setState(2)}>
