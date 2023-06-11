@@ -24,6 +24,29 @@ h1{
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.square button {
+  border-radius: 50px;
+  color: white;
+  font-size: 15px;
+  width: 75px;
+  margin-top: 150px;
+  float: right;
+ box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.accept {
+  background-color: rgb(42, 207, 236);
+}
+
+.upload {
+  background-color: rgb(231, 160, 5);
+}
+
+.submit {
+  background-color: rgb(20, 223, 108);
+}
+
+
 
 
 
