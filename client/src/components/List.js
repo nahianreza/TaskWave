@@ -37,19 +37,14 @@ const List = () => {
 	console.log(tasks);
 
 	return (
-		<>
-			{/* {tasks.map((task, index) => (
-				<div key={task.id}>
-					<h1>{task.Description}</h1>
-					<p>Creator: {task.Creator}</p>
-					<p>Assignee: {task.Assignee}</p>
-					<p>Completed: {task.Completed ? "Yes" : "No"}</p>
-				</div>
-			))} */}
-			<Post task={tasks[0]}></Post>
-			<Post task={tasks[1]}></Post>
-		</>
-	);
+        <div className="list-div">
+            {tasks.map((task, index) => (
+                <div key={task.id}>
+                    <Post task={task}></Post>
+                </div>
+            ))}
+        </div>
+    );
 };
 
 export default List;
