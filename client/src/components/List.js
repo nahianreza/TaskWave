@@ -56,7 +56,7 @@ const List = () => {
 			<div className="list-div">
 				<div>
 					<button id="tasks-button" onClick={getTasks}>
-						Lol
+						Refresh
 					</button>
 				</div>
 
