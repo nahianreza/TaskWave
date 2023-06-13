@@ -5,7 +5,7 @@ import { QuerySnapshot } from "firebase/firestore";
 import Post from "./Post";
 import "./List.css";
 
-const List = () => {
+const List = ({ student }) => {
 	const [tasks, setTasks] = useState([]);
 	const [needGetTasks, setNeedGetTasks] = useState(true);
 	const [loaded, setLoading] = useState(false);
@@ -16,32 +16,32 @@ const List = () => {
 		setLoading(true);
 		// We are adding an onSnapshot method to ref
 		ref.onSnapshot((querySnapshot) => {
-			// Item sarray
+			// Item array
 			const items = [];
-			// GO through forEach, and apply the data document into the items array
+			// Go through forEach, and apply the data document into the items array
 			querySnapshot.forEach((doc) => {
-				items.push(doc.data());
+				items.push({ id: doc.id, ...doc.data() });
 			});
 			setTasks(items);
 			setLoading(false);
 		});
 	};
 
-	// const getTasks = () => {
-	// 	let items = [
-	// 		{ Creator: "Ihsaan", Description: "Implement stack" },
-	// 		{ Creator: "Armaan", Description: "Implement backend" },
-	// 		{ Creator: "Abhi", Description: "Shut up" },
-	// 	];
-	// 	setTasks(items);
-	// };
-
-	// Use effect prevents thing from being called too much
-
-	// useEffect(() => {
-	// 	getTasks();
-	// 	console.log(tasks);
-	// }, []);
+	{
+		// const getTasks = () => {
+		// 	let items = [
+		// 		{ Creator: "Ihsaan", Description: "Implement stack" },
+		// 		{ Creator: "Armaan", Description: "Implement backend" },
+		// 		{ Creator: "Abhi", Description: "Shut up" },
+		// 	];
+		// 	setTasks(items);
+		// };
+		// Use effect prevents thing from being called too much
+		// useEffect(() => {
+		// 	getTasks();
+		// 	console.log(tasks);
+		// }, []);
+	}
 
 	if (loaded) {
 		return (
@@ -53,6 +53,7 @@ const List = () => {
 
 	return (
 		<>
+			<h1>{student}</h1>
 			<div className="list-div">
 				<div>
 					<button id="tasks-button" onClick={getTasks}>
@@ -62,7 +63,7 @@ const List = () => {
 
 				{tasks.map((task, index) => (
 					<div key={task.id}>
-						<Post task={task}></Post>
+						<Post task={task} collection={ref}></Post>
 					</div>
 				))}
 			</div>

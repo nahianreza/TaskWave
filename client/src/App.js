@@ -40,14 +40,67 @@ function App() {
 		clearErrors();
 		fire.auth()
 			.createUserWithEmailAndPassword(email, password)
-			.then((authUser) => {
-				return fire
-					.firestore()
-					.collection("users")
-					.doc(authUser.user.uid)
-					.set({
-						role: userRole,
-					});
+			.then(async (authUser) => {
+				const storageRef = fire.storage().ref();
+
+				if (userRole === "admin" && companyLogo) {
+					const logoRef = storageRef.child(
+						`logos/${companyLogo.name}`
+					);
+					return logoRef
+						.put(companyLogo)
+						.then((snapshot) => {
+							return snapshot.ref.getDownloadURL();
+						})
+						.then((downloadURL) => {
+							return fire
+								.firestore()
+								.collection("users")
+								.doc(authUser.user.uid)
+								.set({
+									role: userRole,
+									companyName,
+									companyLogo: downloadURL,
+								});
+						})
+						.then(() => {
+							setUserRole(userRole); // Set the user role in state after it's successfully written to Firestore
+						});
+				} else if (userRole === "student" && studentLogo) {
+					const logoRef = storageRef.child(
+						`logos/${studentLogo.name}`
+					);
+					return logoRef
+						.put(studentLogo)
+						.then((snapshot) => {
+							return snapshot.ref.getDownloadURL();
+						})
+						.then((downloadURL) => {
+							return fire
+								.firestore()
+								.collection("users")
+								.doc(authUser.user.uid)
+								.set({
+									role: userRole,
+									studentName,
+									studentLogo: downloadURL,
+								});
+						})
+						.then(() => {
+							setUserRole(userRole); // Set the user role in state after it's successfully written to Firestore
+						});
+				} else {
+					return fire
+						.firestore()
+						.collection("users")
+						.doc(authUser.user.uid)
+						.set({
+							role: userRole,
+						})
+						.then(() => {
+							setUserRole(userRole); // Set the user role in state after it's successfully written to Firestore
+						});
+				}
 			})
 			.catch((err) => {
 				switch (err.code) {
@@ -67,21 +120,32 @@ function App() {
 	};
 
 	const authListener = () => {
-		fire.auth().onAuthStateChanged((user) => {
+		fire.auth().onAuthStateChanged(async (user) => {
 			if (user) {
 				clearInputs();
 				setUser(user);
-				fire.firestore()
+
+				const doc = await fire
+					.firestore()
 					.collection("users")
 					.doc(user.uid)
-					.get()
-					.then((doc) => {
-						if (doc.exists) {
-							setUserRole(doc.data().role);
-						}
-					});
+					.get();
+
+				if (doc.exists) {
+					const data = doc.data();
+					console.log("Data", data);
+					setUserRole(data.role);
+					if (data.role === "admin") {
+						setCompanyName(data.companyName);
+						setCompanyLogo(data.companyLogo);
+					} else if (data.role === "student") {
+						setStudentName(data.studentName);
+						setStudentLogo(data.studentLogo);
+					}
+				}
 			} else {
 				setUser("");
+				setUserRole("");
 			}
 		});
 	};
@@ -100,13 +164,19 @@ function App() {
 		setPasswordError("");
 	};
 
+	console.log(studentName);
+	console.log(user);
+
 	return (
 		<div className="App">
 			{user ? (
 				userRole === "admin" ? (
 					<AdminHome handleLogout={handleLogout} />
 				) : (
-					<StudentHome handleLogout={handleLogout} />
+					<StudentHome
+						user={studentName}
+						handleLogout={handleLogout}
+					/>
 				)
 			) : (
 				<Login
