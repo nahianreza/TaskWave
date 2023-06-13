@@ -77,8 +77,11 @@ const Post = ({ task, collection }) => {
 	return (
 		<>
 			<div className="square">
+				<div className="square-content">
+				<div className="square-title">
 				<h1>{task.Creator}</h1>
 				<p>{task.Description}</p>
+				</div>
 				{state === 1 && (
 					<>
 						<input
@@ -86,6 +89,7 @@ const Post = ({ task, collection }) => {
 							placeholder="Estimated Time"
 							value={estimatedTime}
 							onChange={handleEstimatedTimeChange}
+							className="inputtag"
 						/>
 						<button className="accept" onClick={handleAccept}>
 							<p>Accept</p>
@@ -99,6 +103,7 @@ const Post = ({ task, collection }) => {
 							placeholder="Enter Git Hub URL"
 							value={url}
 							onChange={handleUrlChange}
+							className="inputtag"
 						/>
 						<button
 							className="upload"
@@ -123,6 +128,7 @@ const Post = ({ task, collection }) => {
 						</button>
 					</>
 				)}
+				</div>
 			</div>
 		</>
 	);
