@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 const AdminHome = (props) => {
 	const [modalOpen, setModalOpen] = useState(false);
+	const [assignments, setAssignments] = useState([]);
 	const [assignmentName, setAssignmentName] = useState("");
 	const [assignmentDetail, setAssignmentDetail] = useState("");
 
@@ -29,23 +30,33 @@ const AdminHome = (props) => {
 	return (
 		<section className="home">
 			<nav>
-				<h2>Tech Incubator for companies</h2>
+				<h2>TaskWave Admin</h2>
 				<div>
 					<button
 						className="create-assignment-button"
 						onClick={handleOpenModal}
 					>
-						Create Assignment
+						Create Task
 					</button>
 					<button onClick={props.handleLogout}>Logout</button>
 				</div>
 			</nav>
+			{assignments.length === 0 ? (
+				<h1 style={{position: "absolute", fontWeight:"bold", color: "white", textAlign: "center", top: "50%", left: "36%"}}> Welcome to TaskWave!<br></br> No task created yet! Please create a task for students to accept.</h1>
+			) : (
+				assignments.map((assignment) => (
+				<div key={assignment.id}>
+					<h3>{assignment.name}</h3>
+					<p>{assignment.details}</p>
+				</div>
+				))
+			)}
 			{modalOpen && (
 				<div className="modal">
-					<h2>Create Assignment</h2>
+					<h2 style={{color: "white", fontSize: "30px"}}>Create Task</h2>
 					<form onSubmit={handleSubmit}>
 						<label>
-							Assignment Name
+							Task Name
 							<input
 								type="text"
 								value={assignmentName}
@@ -53,7 +64,7 @@ const AdminHome = (props) => {
 							/>
 						</label>
 						<label>
-							Assignment Detail
+							Task Detail
 							<textarea
 								value={assignmentDetail}
 								onChange={handleAssignmentDetailChange}

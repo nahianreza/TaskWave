@@ -25,7 +25,7 @@ const Login = (props) => {
 	return (
 		<section className="login">
 			<div className="loginContainer">
-				<title>Tech Incubator</title>
+				<title>TaskWave</title>
 				<label>Username</label>
 				<input
 					type="text"
